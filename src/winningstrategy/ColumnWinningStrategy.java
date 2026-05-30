@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class ColumnWinningStrategy implements WinningStrategy {
 
-    private int size;
-    private Map<String, Integer>[] columnMapArr;
+    private final int size;
+    private final Map<String, Integer>[] columnMapArr;
 
     public ColumnWinningStrategy(int size){
         this.size = size;

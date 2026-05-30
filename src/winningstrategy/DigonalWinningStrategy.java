@@ -6,8 +6,8 @@ import java.util.HashMap;
 
 public class DigonalWinningStrategy implements WinningStrategy{
 
-    private int size;
-    private HashMap<String, Integer>[] digonalMapArr;
+    private final int size;
+    private final HashMap<String, Integer>[] digonalMapArr;
 
     public DigonalWinningStrategy(int size){
         this.size = size;
@@ -33,7 +33,7 @@ public class DigonalWinningStrategy implements WinningStrategy{
             won = won || size == digonalMapArr[0].get(symbolName);
         }
 
-        //Cross Digonal
+        //Anti Digonal
         if(row+column == size-1){
             digonalMapArr[1].put(symbolName, digonalMapArr[1].getOrDefault(symbolName, 0)+ 1);
             won = won || size == digonalMapArr[1].get(symbolName);

@@ -1,7 +1,6 @@
 package model;
 
 import model.enums.CellState;
-import model.enums.PlayerType;
 
 public class Cell {
 
