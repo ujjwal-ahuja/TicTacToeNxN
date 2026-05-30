@@ -27,8 +27,6 @@ public class RowWinningStrategy implements WinningStrategy {
 
         rowMapArr[row].put(symbolName, rowMapArr[row].getOrDefault(symbolName, 0) + 1);
         return size == rowMapArr[row].get(symbolName);
-
-        return false;
     }
 
 

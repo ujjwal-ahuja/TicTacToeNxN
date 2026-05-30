@@ -6,15 +6,15 @@ import java.util.List;
 public class Board {
 
     private int size;
-    private List<List<Cell>> boardStr;
+    private List<List<Cell>> cells;
 
     public Board(int size){
         this.size = size;
-        this.boardStr = new ArrayList<>();
+        this.cells = new ArrayList<>();
         for(int i=0; i<size; i++){
-            this.boardStr.add(new ArrayList<>());
+            this.cells.add(new ArrayList<>());
             for(int j=0; j<size; j++){
-                this.boardStr.get(i).add(new Cell(i,j));
+                this.cells.get(i).add(new Cell(i,j));
             }
         }
     }
@@ -27,14 +27,20 @@ public class Board {
         this.size = size;
     }
 
-    public List<List<Cell>> getBoardStr() {
-        return boardStr;
+    public List<List<Cell>> getCells() {
+        return cells;
     }
 
-    public void setBoardStr(List<List<Cell>> boardStr) {
-        this.boardStr = boardStr;
+    public void setCells(List<List<Cell>> cells) {
+        this.cells = cells;
     }
 
-//    public void display(){
-//    }
+    public void display() {
+        for (int i=0; i<size; i++){
+            for (int j=0; j<size; j++){
+                this.cells.get(i).get(j).display();
+            }
+        }
+
+    }
 }
