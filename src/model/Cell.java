@@ -49,10 +49,10 @@ public class Cell {
 
     public void display() {
         if(this.cellState == CellState.EMPTY){
-            System.out.println("| __ |");
+            System.out.print("|-|");
         }
         else{
-            System.out.println("| " + player.getSymbol().getSymbol_name() + " |");
+            System.out.print("|" + player.getSymbol().getSymbol_name() + "|");
         }
 
     }

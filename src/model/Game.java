@@ -1,5 +1,6 @@
 package model;
 
+import model.enums.CellState;
 import model.enums.GameStatus;
 import model.enums.PlayerType;
 import winningstrategy.WinningStrategy;
@@ -74,5 +75,59 @@ public class Game {
 
     public void setNextPlayerToPlay(int nextPlayerToPlay) {
         this.nextPlayerToPlay = nextPlayerToPlay;
+    }
+
+    public void makeMove() {
+
+        Player currentPlayer = players.get(nextPlayerToPlay);
+
+        System.out.println("It's Player " + currentPlayer.getName() + "  a.k.a " + currentPlayer.getSymbol().getSymbol_name() + "'s turn");
+
+        Move move = currentPlayer.makeMove();
+
+        updateGameStatus(move);
+
+        nextPlayerToPlay = (++nextPlayerToPlay) % players.size();
+
+        if(checkWinner(move)){
+            this.winner = currentPlayer;
+            this.gameStatus =  GameStatus.ENDED;
+        }
+        else if(moves.size() == board.getSize() * board.getSize()){
+            this.gameStatus = GameStatus.DRAWN;
+        }
+    }
+
+    private void updateGameStatus(Move move) {
+        Player currentPlayer = players.get(nextPlayerToPlay);
+        int row = move.getCell().getRow();
+        int col = move.getCell().getColumn();
+
+        Cell cell = board.getCells().get(row).get(col);
+        cell.setPlayer(currentPlayer);
+        cell.setCellState(CellState.FILLED);
+
+        moves.add(move);
+    }
+
+    private boolean checkWinner(Move move) {
+        for(WinningStrategy winningStrategy : winningStrategies){
+            if(winningStrategy.checkWinner(move)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void validate(Move move) {
+        int row = move.getCell().getRow();
+        int col = move.getCell().getColumn();
+
+        //validation 1
+        if(row < 0 || row >= board.getSize() || col<0 || col>= board.getSize());
+        //validation2
+        //check if cell is filled or not
+
+
     }
 }
