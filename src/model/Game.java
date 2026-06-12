@@ -2,7 +2,6 @@ package model;
 
 import model.enums.CellState;
 import model.enums.GameStatus;
-import model.enums.PlayerType;
 import winningstrategy.WinningStrategy;
 
 import java.util.ArrayList;
@@ -83,9 +82,20 @@ public class Game {
 
         System.out.println("It's Player " + currentPlayer.getName() + "  a.k.a " + currentPlayer.getSymbol().getSymbol_name() + "'s turn");
 
-        Move move = currentPlayer.makeMove();
+        Move move = currentPlayer.makeMove(board);
+        while (!validate(move)) {
+            System.out.println("Invalid move. Please try again.");
+            move = currentPlayer.makeMove(board);
+        }
 
-        updateGameStatus(move);
+        int row = move.getCell().getRow();
+        int col = move.getCell().getColumn();
+
+        Cell cell = board.getCells().get(row).get(col);
+        cell.setPlayer(currentPlayer);
+        cell.setCellState(CellState.FILLED);
+
+        moves.add(move);
 
         nextPlayerToPlay = (++nextPlayerToPlay) % players.size();
 
@@ -98,18 +108,6 @@ public class Game {
         }
     }
 
-    private void updateGameStatus(Move move) {
-        Player currentPlayer = players.get(nextPlayerToPlay);
-        int row = move.getCell().getRow();
-        int col = move.getCell().getColumn();
-
-        Cell cell = board.getCells().get(row).get(col);
-        cell.setPlayer(currentPlayer);
-        cell.setCellState(CellState.FILLED);
-
-        moves.add(move);
-    }
-
     private boolean checkWinner(Move move) {
         for(WinningStrategy winningStrategy : winningStrategies){
             if(winningStrategy.checkWinner(move)){
@@ -119,15 +117,24 @@ public class Game {
         return false;
     }
 
-    private void validate(Move move) {
+    private boolean validate(Move move) {
+        if (move == null || move.getCell() == null) {
+            return false;
+        }
+
+        if (move.getPlayer() != players.get(nextPlayerToPlay)) {
+            return false;
+        }
+
         int row = move.getCell().getRow();
         int col = move.getCell().getColumn();
 
-        //validation 1
-        if(row < 0 || row >= board.getSize() || col<0 || col>= board.getSize());
-        //validation2
-        //check if cell is filled or not
+        if(row < 0 || row >= board.getSize() || col < 0 || col >= board.getSize()) {
+            return false;
+        }
 
+        Cell cell = board.getCells().get(row).get(col);
+        return cell.getCellState() == CellState.EMPTY;
 
     }
 }

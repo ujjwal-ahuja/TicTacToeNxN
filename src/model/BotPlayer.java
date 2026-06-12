@@ -1,19 +1,22 @@
 package model;
 
+import factory.BotPlayingStrategyFactory;
 import model.enums.BotDifficultyLevel;
 import model.enums.PlayerType;
+import winningstrategy.BotPlayingStrategy;
 
 public class BotPlayer extends Player {
 
     private BotDifficultyLevel botDifficultyLevel;
+    private BotPlayingStrategy botPlayingStrategy;
 
-    public BotPlayer(BotDifficultyLevel botDifficultyLevel,
-                     int id,
+    public BotPlayer(int id,
                      String name,
                      Symbol symbol,
-                     PlayerType playerType){
-        super(id, name, symbol, playerType);
+                     BotDifficultyLevel botDifficultyLevel){
+        super(id, name, symbol, PlayerType.BOT);
         this.botDifficultyLevel = botDifficultyLevel;
+        this.botPlayingStrategy = BotPlayingStrategyFactory.getStrategy(botDifficultyLevel);
     }
 
     public BotDifficultyLevel getBotDifficultyLevel() {
@@ -25,7 +28,8 @@ public class BotPlayer extends Player {
     }
 
     @Override
-    public Move makeMove() {
-        return null;
+    public Move makeMove(Board board) {
+        System.out.println("Its Bot's turn now, Understood ?? baka");
+        return botPlayingStrategy.makeMove(board,  this);
     }
 }

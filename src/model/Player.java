@@ -8,7 +8,7 @@ public abstract class Player {
     private Symbol symbol;
     private PlayerType playerType;
 
-    public Player(int id,
+    protected Player(int id,
                   String name,
                   Symbol symbol,
                   PlayerType playerType){
@@ -18,7 +18,7 @@ public abstract class Player {
         this.playerType=playerType;
     }
 
-    public abstract Move makeMove();
+    public abstract Move makeMove(Board board);
 
     public int getId() {
         return id;
